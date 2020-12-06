@@ -239,7 +239,7 @@ ax8.set_xmargin(0.0)
 x, y = pseudoternary(data)
 ax8.set_xticks(list(filter(lambda b: b == int(b), x)))
 ax8.set_xticklabels([])
-ax8.step(x, y, color = '#9367bd', linewidth=2.0, zorder = 1)
+ax8.step(x, y, color = '#9367bd', linewidth=2.0)
 for pos, bit in enumerate(data):
   ax8.text(pos + 0.5, 0 if bit == 0 else 0.25, bit)
 
@@ -256,7 +256,7 @@ ax9.set_xticks(list(filter(lambda b: b == int(b), x)))
 ax9.set_xticklabels([])
 ax9.set_yticks([-1, 0, 1])
 ax9.set_yticklabels([' -V', '0 V', ' +V'])
-ax9.step(x, y, color = '#9367bd', linewidth=2.0, zorder = 1)
+ax9.step(x, y, color = '#9367bd', linewidth=2.0)
 for pos, bit in enumerate(data):
   ax9.text(pos + 0.5, 0 if bit == 1 else 0.25, bit)
 
