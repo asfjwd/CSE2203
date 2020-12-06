@@ -9,7 +9,7 @@ def nonpolar(dat):
 
 def nrzL(dat):
   x = [i for i in range(len(dat) + 1)]
-  y = [-1] + [-1 if i == 0 else 1 for i in dat]
+  y = [-1] + [1 if i == 0 else -1 for i in dat]
   return x, y
 
 def nrzI(dat):
