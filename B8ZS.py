@@ -12,26 +12,14 @@ def B8ZS(dat):
   opt = [[0, 0, 0, -1, 1, 0, 1, -1], [0, 0, 0, 1, -1, 0, -1, 1]]
   while i < len(dat):
     if dat[i]:
-      if lastNonZero:
-        y.append(-1)
-      else:
-        y.append(1)
+      y.append(-1 if lastNonZero else 1)
       lastNonZero = lastNonZero ^ 1;
       i = i + 1
     else:
-      j = i
-      flag = True
-      while j - i < 8 and j < len(dat):
-        if dat[j]:
-          flag = False
-          break
-        j = j + 1
-      if flag and j - i == 8:
-        for k in range(8):
-          y.append(opt[lastNonZero][k])
-          pos.append((i, j))
-        # print(i, j - 1)
-        i = j
+      if i + 8 <= len(dat) and all(v == 0 for v in dat[i:i + 8]):
+        pos.append((i, i + 8))
+        y = y + opt[lastNonZero]
+        i = i + 8
       else:
         y.append(0)
         i = i + 1
@@ -54,12 +42,12 @@ ax.set_ymargin(0.4)
 ax.set_xmargin(0.0)
 x, y, pos = B8ZS(data)
 for p in pos:
-  plt.axvspan(p[0], p[1], color='#17bdcf', alpha=0.02)
+  plt.axvspan(p[0], p[1], color='#17bdcf', alpha=0.2)
 ax.set_xticks(list(filter(lambda b: b == int(b), x)))
 ax.set_xticklabels([])
 ax.step(x, y, color = '#9367bd', linewidth=3.0)
 for pos, bit in enumerate(data):
   ax.text(pos + 0.5, 0.5, bit)
 
-# plt.show()
-plt.savefig('P4-14 (B8ZS).png')
+plt.show()
+# plt.savefig('P4-14 (B8ZS).png')

@@ -8,36 +8,24 @@ def B8ZS(dat):
   pos = []
   i = 0
 
-  lastNonZero = 1 #(0, 1) -> last non zero level was (-ve, +ve)
+  lastNonZero = 0 #(0, 1) -> last non zero level was (-ve, +ve)
   nonZeroParity = 0
   opt = [ [[1, 0, 0, 1], [0, 0, 0, -1]], [[-1, 0, 0, -1], [0, 0, 0, 1]] ]
-  # opt = [[0, 0, 0, -1, 1, 0, 1, -1], [0, 0, 0, 1, -1, 0, -1, 1]]
   while i < len(dat):
     if dat[i]:
-      nonZeroParity = (nonZeroParity + 1) % 2
-      if lastNonZero:
-        y.append(-1)
-      else:
-        y.append(1)
+      y.append(-1 if lastNonZero else 1)
+      nonZeroParity = nonZeroParity ^ 1
       lastNonZero = lastNonZero ^ 1;
       i = i + 1
     else:
-      j = i
-      flag = True
-      while j - i < 4 and j < len(dat):
-        if dat[j]:
-          flag = False
-          break
-        j = j + 1
-      if flag and j - i == 4:
-        for k in range(4):
-          y.append(opt[lastNonZero][nonZeroParity][k])
-        pos.append((i, j))
-        i = j
+      if i + 4 <= len(dat) and all(v == 0 for v in dat[i:i+4]):
+        pos.append((i, i + 4))
+        y = y + opt[lastNonZero][nonZeroParity]
         if nonZeroParity == 0:
           lastNonZero = lastNonZero ^ 1
         else :
           nonZeroParity = 0
+        i = i + 4
       else:
         y.append(0)
         i = i + 1
@@ -72,5 +60,5 @@ ax.step(x, y, color = '#9367bd', linewidth=3.0)
 for pos, bit in enumerate(data):
   ax.text(pos + 0.5, 0.5, bit)
 
-# plt.show()
-plt.savefig('P4-14 (HDB3).png')
+plt.show()
+# plt.savefig('P4-14 (HDB3).png')
